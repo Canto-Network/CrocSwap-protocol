@@ -186,6 +186,26 @@ contract LiquidityMining is PositionRegistrar {
         int24 upperTick,
         uint32[] memory weeksToClaim
     ) internal {
+        uint256 rewardsToSend = calculateConcentratedRewards(
+            owner,
+            poolIdx,
+            lowerTick,
+            upperTick,
+            weeksToClaim
+        );
+        if (rewardsToSend > 0) {
+            (bool sent, ) = owner.call{value: rewardsToSend}("");
+            require(sent, "Sending rewards failed");
+        }
+    }
+
+    function calculateConcentratedRewards(
+        address payable owner,
+        bytes32 poolIdx,
+        int24 lowerTick,
+        int24 upperTick,
+        uint32[] memory weeksToClaim
+    ) internal returns (uint256) {
         accrueConcentratedPositionTimeWeightedLiquidity(
             owner,
             poolIdx,
@@ -201,24 +221,20 @@ contract LiquidityMining is PositionRegistrar {
         for (uint256 i; i < weeksToClaim.length; ++i) {
             uint32 week = weeksToClaim[i];
             require(week + WEEK < block.timestamp, "Week not over yet");
-            require(
-                !concLiquidityRewardsClaimed_[poolIdx][posKey][week],
-                "Already claimed"
-            );
-            uint256 overallInRangeLiquidity = timeWeightedWeeklyGlobalConcLiquidity_[poolIdx][week];
-            if (overallInRangeLiquidity > 0) {
-                uint256 inRangeLiquidityOfPosition;
-                for (int24 j = lowerTick + 100; j <= upperTick - 100; ++j) {
-                    inRangeLiquidityOfPosition += timeWeightedWeeklyPositionInRangeConcLiquidity_[poolIdx][posKey][week][j];
+            // only claim if not already claimed
+            if (!concLiquidityRewardsClaimed_[poolIdx][posKey][week]) {
+                uint256 overallInRangeLiquidity = timeWeightedWeeklyGlobalConcLiquidity_[poolIdx][week];
+                if (overallInRangeLiquidity > 0) {
+                    uint256 inRangeLiquidityOfPosition;
+                    for (int24 j = lowerTick + 100; j <= upperTick - 100; ++j) {
+                        inRangeLiquidityOfPosition += timeWeightedWeeklyPositionInRangeConcLiquidity_[poolIdx][posKey][week][j];
+                    }
+                    // Percentage of this weeks overall in range liquidity that was provided by the user times the overall weekly rewards
+                    rewardsToSend += inRangeLiquidityOfPosition * concRewardPerWeek_[poolIdx][week] / overallInRangeLiquidity;
                 }
-                // Percentage of this weeks overall in range liquidity that was provided by the user times the overall weekly rewards
-                rewardsToSend += inRangeLiquidityOfPosition * concRewardPerWeek_[poolIdx][week] / overallInRangeLiquidity;
+                concLiquidityRewardsClaimed_[poolIdx][posKey][week] = true;
             }
-            concLiquidityRewardsClaimed_[poolIdx][posKey][week] = true;
         }
-        if (rewardsToSend > 0) {
-            (bool sent, ) = owner.call{value: rewardsToSend}("");
-            require(sent, "Sending rewards failed");
-        }
+        return rewardsToSend;
     }
 }
