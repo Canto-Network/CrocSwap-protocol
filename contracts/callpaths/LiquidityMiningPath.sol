@@ -56,6 +56,15 @@ contract LiquidityMiningPath is LiquidityMining {
         claimConcentratedRewards(payable(msg.sender), poolIdx, lowerTick, upperTick, weeksToClaim);
     }
 
+    function calculateConcentratedRewards(
+        bytes32 poolIdx,
+        int24 lowerTick,
+        int24 upperTick,
+        uint32[] memory weeksToClaim
+    ) public view returns (uint256) {
+        return calculateConcentratedRewards(poolIdx, lowerTick, upperTick, weeksToClaim);
+    }
+
     function setConcRewards(bytes32 poolIdx, uint32 weekFrom, uint32 weekTo, uint64 weeklyReward) public payable {
         // require(msg.sender == governance_, "Only callable by governance");
         require(weekFrom % WEEK == 0 && weekTo % WEEK == 0, "Invalid weeks");
