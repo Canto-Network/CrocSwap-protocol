@@ -8,10 +8,10 @@ const abi = new AbiCoder();
 const PRECISION = 100000000;
 const Q_64 = BigNumber.from(2).pow(64);
 
-// testnet dex address
-const dexAddress = "0xA4C0F8febA559083Fe47E396f7C4f047E8820253";
-const usdcAddress = "0xc51534568489f47949A828C8e3BF68463bdF3566";
-const cNoteAddress = "0x04E52476d318CdF739C38BD41A922787D441900c";
+// mainnet dex address
+const dexAddress = "0x9290C893ce949FE13EF3355660d07dE0FB793618";
+const usdcAddress = "0x80b5a32E4F032B2a058b4F29EC95EEfEEB87aDcd";
+const cNoteAddress = "0xEe602429Ef7eCe0a13e4FfE8dBC16e101049504C";
 
 async function main() {
 	const [deployer] = await ethers.getSigners();
@@ -31,7 +31,7 @@ async function main() {
 	approveCNOTE = await cNOTE.approve(dexAddress, BigNumber.from(10).pow(36));
 	await approveCNOTE.wait();
 
-	/* 
+	/*
 	/	2. set new pool liquidity (amount to lock up for new pool)
 	/	   params = [code, liq]
 	*/
@@ -46,7 +46,7 @@ async function main() {
 	*/
 	let templateCmd = abi.encode(
 		["uint8", "uint256", "uint16", "uint16", "uint8", "uint8", "uint8"],
-		[110, 36000, 500, 1, 2, 64, 0]
+		[110, 36000, 100, 1, 8, 64, 0]
 	);
 	tx = await dex.protocolCmd(3, templateCmd, false);
 	await tx.wait();
@@ -58,11 +58,11 @@ async function main() {
 	*/
 	let initPoolCmd = abi.encode(
 		["uint8", "address", "address", "uint256", "uint128"],
-		[71, cNoteAddress, usdcAddress, 36000, toSqrtPrice(Math.pow(10, 12))]
+		[71, usdcAddress, cNoteAddress, 36000, toSqrtPrice(Math.pow(10, -12))]
 	);
 	tx = await dex.userCmd(3, initPoolCmd, { gasLimit: 6000000 });
 	await tx.wait();
-	console.log(tx);
+	console.log("Initialized new pool");
 
 	// // -----------------------------
 	// // EXTRA FUNCTIONS

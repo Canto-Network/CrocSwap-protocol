@@ -9,9 +9,9 @@ const PRECISION = 100000000;
 const Q_64 = BigNumber.from(2).pow(64);
 
 // testnet dex address
-const dexAddress = "0xd9bac85f6ac9fBFd2559A4Ac2883c635C29Feb4b";
-const usdcAddress = "0xc51534568489f47949A828C8e3BF68463bdF3566";
-const cNoteAddress = "0x04E52476d318CdF739C38BD41A922787D441900c";
+const dexAddress = "0x9290C893ce949FE13EF3355660d07dE0FB793618";
+const usdcAddress = "0x80b5a32E4F032B2a058b4F29EC95EEfEEB87aDcd";
+const cNoteAddress = "0xEe602429Ef7eCe0a13e4FfE8dBC16e101049504C";
 
 async function main() {
 	const [deployer] = await ethers.getSigners();
@@ -46,15 +46,15 @@ async function main() {
 	// );
 
 	swapTx = await dex.swap(
-		cNoteAddress,
 		usdcAddress,
+		cNoteAddress,
 		36000,
 		false,
-		false,
-		BigNumber.from("20000000"),
+		true,
+		BigNumber.from("1000000"),
 		0,
-		BigNumber.from("16602069666338596454400000"),
-		BigNumber.from("19000000000000000000"),
+		BigNumber.from("16446744073709"),
+		BigNumber.from("1080000000000000000"),
 		0
 	);
 
