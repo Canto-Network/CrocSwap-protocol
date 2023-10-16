@@ -4,18 +4,18 @@ var AbiCoder = require("@ethersproject/abi").AbiCoder;
 
 const abi = new AbiCoder();
 
-// testnet addresses 1
+// mainnet addresses 1
 const addresses = {
-	CrocSwapDex: "0xA4C0F8febA559083Fe47E396f7C4f047E8820253",
-	HotProxy: "0xcf883bB0B1903b96B10242696D62d54BE94Aa2f5",
-	WarmPath: "0xafC5554c7710F760E79f748eb900A28B7b1E4FA7",
-	ColdPath: "0x3b62C6B3430832B970551eab21268e7C87A48912",
-	LongPath: "0x4d9E727A61b8BEc65300A1b05b31E01C82d4B982",
-	MicroPaths: "0x663f021531BDE01C2373dA41c3144115e06f9211",
-	KnockoutLiqPath: "0xcA54dcD6B08687e61D0E44010af35C65C4EDefF4",
-	KnockoutFlagPath: "0x575298cbc88faB5433928D1cF27C57d779677844",
-	SafeModePath: "0xC428162feD5E33cBf604dfCBa8Eb9247DE9722a4",
-	LiquidityMiningPath: "0x5e27C6FD3967275E566F55A4F2f2e56A0d29A461",
+	CrocSwapDex: "0x9290C893ce949FE13EF3355660d07dE0FB793618",
+	ColdPath: "0x9B2a63F27661A468E2da22226b64A4914144f195",
+	HotProxy: "0x35FF0Ae8D893aC4c1Cefd4B5ac80eAb96684D9B7",
+	KnockoutLiqPath: "0x29BfE042158b5a213c224AFE44C749eC4429527A",
+	KnockoutFlagPath: "0x35E66506D8d1f456Ac0eD8fF0C50a847d43ec02C",
+	LongPath: "0x54861bdc3Ce98b0d11a4fEaA965dA97d239762d5",
+	MicroPaths: "0xB183D02122F55f928d711Ef10C3758A512aCaBd3",
+	SafeModePath: "0xf6153C52EEdA76728A2139F3ec5a6cE055266F40",
+	WarmPath: "0x74ff14e7E80DC76C355B156A06882e18C1938A19",
+	LiquidityMiningPath: "0x2D826ae54b06839042Da0c9B81EAB34bfeA05646",
 };
 
 const BOOT_PROXY_IDX = 0;
@@ -39,61 +39,68 @@ async function main() {
 	const dex = await CrocSwapDex.attach(addresses.CrocSwapDex);
 
 	// use protocolCmd to install paths
-	// install coldpath
-	cmd = abi.encode(
-		["uint8", "address", "uint16"],
-		[21, addresses.ColdPath, COLD_PROXY_IDX]
-	);
-	await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+	// // install coldpath
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.ColdPath, COLD_PROXY_IDX]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
 
-	// install longpath
-	cmd = abi.encode(
-		["uint8", "address", "uint16"],
-		[21, addresses.LongPath, LONG_PROXY_IDX]
-	);
-	await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+	// // install longpath
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.LongPath, LONG_PROXY_IDX]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
 
-	// install warm path
-	cmd = abi.encode(
-		["uint8", "address", "uint16"],
-		[21, addresses.WarmPath, LP_PROXY_IDX]
-	);
-	await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+	// // install warm path
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.WarmPath, LP_PROXY_IDX]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
 
-	// install hot proxy path
-	cmd = abi.encode(
-		["uint8", "address", "uint16"],
-		[21, addresses.HotProxy, SWAP_PROXY_IDX]
-	);
-	await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+	// // install hot proxy path
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.HotProxy, SWAP_PROXY_IDX]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
 
-	// install micro paths
-	cmd = abi.encode(
-		["uint8", "address", "uint16"],
-		[21, addresses.MicroPaths, MICRO_PROXY_IDX]
-	);
-	await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+	// // install micro paths
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.MicroPaths, MICRO_PROXY_IDX]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
 
-	// install knockout lp proxy path
-	cmd = abi.encode(
-		["uint8", "address", "uint16"],
-		[21, addresses.KnockoutLiqPath, KNOCKOUT_LP_PROXY_IDX]
-	);
-	await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+	// // install knockout lp proxy path
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.KnockoutLiqPath, KNOCKOUT_LP_PROXY_IDX]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
 
-	// install cross knockout cross proxy path
-	cmd = abi.encode(
-		["uint8", "address", "uint16"],
-		[21, addresses.KnockoutFlagPath, FLAG_CROSS_PROXY_IDX]
-	);
-	await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+	// // install cross knockout cross proxy path
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.KnockoutFlagPath, FLAG_CROSS_PROXY_IDX]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
 
-	// install liquidity mining path
-	cmd = abi.encode(
-		["uint8", "address", "uint16"],
-		[21, addresses.LiquidityMiningPath, LIQUIDITY_MINING_PROXY_IDX]
-	);
-	await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+	// // install safe mode path
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.SafeModePath, SAFE_MODE_PROXY_PATH]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
+
+	// // install liquidity mining path
+	// cmd = abi.encode(
+	// 	["uint8", "address", "uint16"],
+	// 	[21, addresses.LiquidityMiningPath, LIQUIDITY_MINING_PROXY_IDX]
+	// );
+	// await dex.protocolCmd(BOOT_PROXY_IDX, cmd, true);
 }
 
 main()

@@ -41,10 +41,10 @@ module.exports = {
          url: 'http://127.0.0.1:8545',
          chainId: 31337
        },
-       canto_testnet: {
-        url: 'https://testnet-archive.plexnode.wtf',
-        chainId: 7701,
-        accounts: ["0x7c5e2cfbba7b00ba95e5ed7cd80566021da709442e147ad3e08f23f5044a3d5a"]
+       canto_mainnet: {
+        url: 'https://mainnode.plexnode.org:8545',
+        chainId: 7700,
+        accounts: [""]
       },
        ropsten: {
          url: 'https://ropsten.infura.io/v3/cf3bc905d88d4f248c6be347adc8a1d8',

@@ -5,5 +5,8 @@ libs = ['node_modules', 'lib']
 test = 'test_other/test_foundry'
 cache_path  = 'forge-cache'
 via_ir = true
+solc-version = "0.8.19"
+optimizer = true
+optimizer-runs = 14900
 
 # See more config options https://book.getfoundry.sh/reference/config.html
