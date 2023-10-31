@@ -24,7 +24,7 @@ import "../CrocEvents.sol";
 contract LiquidityMiningPath is LiquidityMining {
     /* @notice Consolidated method for protocol control related commands. 
      *         Used to set reward rates */
-    function protocolCmd(bytes calldata cmd) public virtual {
+    function protocolCmd(bytes calldata cmd) public virtual payable {
         (uint8 code, bytes32 poolHash, uint32 weekFrom, uint32 weekTo, uint64 weeklyReward) =
             abi.decode(cmd, (uint8, bytes32, uint32, uint32, uint64));
 
